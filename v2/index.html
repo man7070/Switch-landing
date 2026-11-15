@@ -22,6 +22,7 @@
 (function(){try{var t=localStorage.getItem('switch-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://ai-crm-jgwv.onrender.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,600&family=Poppins:wght@400;500;600;700;800&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
@@ -799,7 +800,7 @@ footer .sig{color:var(--faint);font-size:14px}
   },true);
 
   /* lead form → CRM, then Telegram with a link code */
-  var CRM_URL=''; // адрес CRM, например https://ai-crm.onrender.com (без / в конце)
+  var CRM_URL='https://ai-crm-jgwv.onrender.com'; // AI CRM, эндпоинт /api/form/lead
   var BOT='https://t.me/operator_marketing_bot';
   var form=document.getElementById('leadForm'),done=document.getElementById('formDone'),errEl=document.getElementById('formErr'),
       fbtn=document.getElementById('formBtn'),lastPlace='final';
@@ -838,12 +839,13 @@ footer .sig{color:var(--faint);font-size:14px}
     if(!CRM_URL){ // CRM ещё не подключена: отправляем в бот с меткой, данные не теряются у клиента
       finish(v.name,BOT+'?start='+source,null);return;
     }
-    fbtn.disabled=true;
-    var ctrl=('AbortController' in window)?new AbortController():null,timer=setTimeout(function(){ctrl&&ctrl.abort()},12000);
+    fbtn.disabled=true;var lbl=fbtn.firstChild,orig=lbl.textContent;lbl.textContent='Yuborilmoqda… ';
+    var slow=setTimeout(function(){lbl.textContent='Biroz kuting… '},4000);
+    var ctrl=('AbortController' in window)?new AbortController():null,timer=setTimeout(function(){ctrl&&ctrl.abort()},45000);
     fetch(CRM_URL+'/api/form/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:ctrl&&ctrl.signal})
       .then(function(r){return r.json().catch(function(){return {}}).then(function(j){return {ok:r.ok,status:r.status,j:j}})})
       .then(function(res){
-        clearTimeout(timer);fbtn.disabled=false;
+        clearTimeout(timer);clearTimeout(slow);fbtn.disabled=false;lbl.textContent=orig;
         if(res.ok&&res.j&&res.j.ok){
           var url=res.j.botUrl||(res.j.code?BOT+'?start=f_'+res.j.code:BOT+'?start='+source);
           finish(v.name,url,res.j.leadNumber);return;
@@ -851,7 +853,7 @@ footer .sig{color:var(--faint);font-size:14px}
         if(res.status===429)return showErr('Juda ko‘p urinish. Bir daqiqadan keyin qayta yuboring.');
         showErr((res.j&&res.j.error)||'Yuborib bo‘lmadi. Qayta urinib ko‘ring yoki Telegram’da yozing.',res.j&&res.j.field);
       })
-      .catch(function(){clearTimeout(timer);fbtn.disabled=false;
+      .catch(function(){clearTimeout(timer);clearTimeout(slow);fbtn.disabled=false;lbl.textContent=orig;
         showErr('Internet bilan muammo. Qayta urinib ko‘ring yoki pastdagi havola orqali Telegram’da yozing.')});
   });
   /* mobile: sticky CTA appears after hero CTA, hides at the final CTA */

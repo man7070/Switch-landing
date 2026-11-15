@@ -461,7 +461,7 @@ footer .sig{color:var(--faint);font-size:14px}
         <svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
         <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       </button>
-      <a class="nav-cta" href="https://t.me/operator_marketing_bot" target="_blank" rel="noopener">Audit olish</a>
+      <a class="nav-cta" data-place="header" href="https://t.me/operator_marketing_bot?start=lp2_header" target="_blank" rel="noopener">Audit olish</a>
       <button class="burger" type="button" aria-label="Menyu" aria-expanded="false" aria-controls="nav"><span></span><span></span></button>
     </div>
   </div>
@@ -486,7 +486,7 @@ footer .sig{color:var(--faint);font-size:14px}
         <h1 class="hl"><span>Tartibsiz</span><span>marketingdan</span><em>tizimga</em><span>o‘ting.</span></h1>
         <p class="sub">Switch — Toshkentdagi marketing agentligi. Strategiya, kontent, reklama va sotuvni bitta tizimga ulaymiz. Strategiyadan natijagacha — siz bilan birga.</p>
         <div class="cta-row">
-          <a class="btn" href="https://t.me/operator_marketing_bot" target="_blank" rel="noopener">Bepul audit olish <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          <a class="btn" data-place="hero" href="https://t.me/operator_marketing_bot?start=lp2_hero" target="_blank" rel="noopener">Bepul audit olish <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
           <a class="btn-ghost" href="#xizmatlar">Xizmatlarni ko‘rish</a>
         </div>
       </div>
@@ -647,7 +647,7 @@ footer .sig{color:var(--faint);font-size:14px}
         <h2 class="hl">Telegram’da <span class="code">«AUDIT»</span> deb yozing</h2>
         <div>
           <p>Biznesingiz qayerda mijoz yo‘qotayotganini ko‘rib chiqamiz. Bu majburiyat emas.</p>
-          <a class="btn btn-dark" href="https://t.me/operator_marketing_bot" target="_blank" rel="noopener">Bepul audit olish <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          <a class="btn btn-dark" data-place="final" href="https://t.me/operator_marketing_bot?start=lp2_final" target="_blank" rel="noopener">Bepul audit olish <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
           <small>Yoki loyihangiz haqida yozing — birga muhokama qilamiz.</small>
         </div>
       </div>
@@ -657,7 +657,7 @@ footer .sig{color:var(--faint);font-size:14px}
 
 <div class="mbar" id="mbar">
   <span class="t"><b>Bepul audit</b>Telegram’da 1 daqiqada</span>
-  <a class="btn" href="https://t.me/operator_marketing_bot" target="_blank" rel="noopener">Yozish <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+  <a class="btn" data-place="bar" href="https://t.me/operator_marketing_bot?start=lp2_bar" target="_blank" rel="noopener">Yozish <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
 </div>
 
 <footer>
@@ -665,7 +665,7 @@ footer .sig{color:var(--faint);font-size:14px}
     <a class="logo" href="#top" aria-label="switch — bosh sahifa"><span class="tg"></span><span class="wordmark">switch</span></a>
     <span class="sig">Sizning o‘sish hamkoringiz · Toshkent, O‘zbekiston</span>
     <span class="links">
-      <a href="https://t.me/operator_marketing_bot" target="_blank" rel="noopener">Telegram</a>
+      <a data-place="footer" href="https://t.me/operator_marketing_bot?start=lp2_footer" target="_blank" rel="noopener">Telegram</a>
       <a href="https://instagram.com/switch.to.me" target="_blank" rel="noopener">@switch.to.me</a>
     </span>
     <span class="engraved">From strategy to real growth</span>
@@ -708,6 +708,38 @@ footer .sig{color:var(--faint);font-size:14px}
   syncTheme();
 
 
+
+  /* source tracking: every Telegram link carries ?start=lp2_<place>[_<utm_source>][_<utm_campaign>] */
+  var SRC=(function(){
+    var q=new URLSearchParams(location.search),keep={};
+    ['utm_source','utm_campaign','utm_content'].forEach(function(k){if(q.get(k))keep[k]=q.get(k)});
+    try{
+      if(Object.keys(keep).length)sessionStorage.setItem('switch-utm',JSON.stringify(keep));
+      else keep=JSON.parse(sessionStorage.getItem('switch-utm')||'{}');
+    }catch(e){}
+    return keep;
+  })();
+  function clean(v,n){return String(v||'').toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,n)}
+  function startFor(place){
+    var parts=['lp2',clean(place,8)];
+    var src=clean(SRC.utm_source,12),cmp=clean(SRC.utm_campaign,20),cnt=clean(SRC.utm_content,12);
+    if(src||cmp||cnt){parts.push(src||'x');if(cmp||cnt)parts.push(cmp||'x');if(cnt)parts.push(cnt)}
+    return parts.join('_').slice(0,64);
+  }
+  function tagLinks(){
+    document.querySelectorAll('a[href^="https://t.me/operator_marketing_bot"]').forEach(function(a){
+      a.href='https://t.me/operator_marketing_bot?start='+startFor(a.getAttribute('data-place')||'other');
+    });
+  }
+  tagLinks();
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="https://t.me/operator_marketing_bot"]');
+    if(!a)return;
+    a.href='https://t.me/operator_marketing_bot?start='+startFor(a.getAttribute('data-place')||'other');
+    try{if(window.fbq)fbq('track','Contact',{content_name:a.getAttribute('data-place')})}catch(err){}
+    try{if(window.gtag)gtag('event','telegram_click',{place:a.getAttribute('data-place')})}catch(err){}
+    try{if(window.ym&&window.YM_ID)ym(window.YM_ID,'reachGoal','telegram_click')}catch(err){}
+  },true);
   /* mobile: sticky CTA appears after hero CTA, hides at the final CTA */
   var mbar=document.getElementById('mbar'),heroCta=document.querySelector('.cta-row'),fin=document.getElementById('yozing');
   if('IntersectionObserver' in window){
@@ -738,7 +770,7 @@ footer .sig{color:var(--faint);font-size:14px}
     nEl.textContent=n;
     sys.classList.toggle('done',n===5);
     var onlyTwo=n===2&&isOn(parts[1])&&isOn(parts[2]),html;
-    if(n===5)html='Tizim yoqildi. Endi har bir so‘m nazoratda.<small>Buni biznesingizda quramiz — <a href="https://t.me/operator_marketing_bot" target="_blank" rel="noopener">Telegram’da yozing</a>.</small>';
+    if(n===5)html='Tizim yoqildi. Endi har bir so‘m nazoratda.<small>Buni biznesingizda quramiz — <a data-place="panel" href="https://t.me/operator_marketing_bot?start=lp2_panel" target="_blank" rel="noopener">Telegram’da yozing</a>.</small>';
     else if(n===0)html='Hammasi o‘chiq. Marketing tasodifga qoldi.<small>Qismlarni birma-bir yoqib ko‘ring.</small>';
     else if(onlyTwo)html='Kontent bor, reklama bor — mijoz qani?<small>Qolgan qismlarni yoqib ko‘ring.</small>';
     else html='Tizim to‘liq emas: '+(5-n)+' ta qism o‘chiq.<small>Bitta qism ishlamasa ham byudjet oqib ketadi.</small>';

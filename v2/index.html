@@ -348,6 +348,81 @@ footer .links a:hover{color:var(--lime-ink)}
 footer .sig{color:var(--faint);font-size:14px}
 @media(max-width:640px){footer .wrap{flex-direction:column;align-items:flex-start}}
 
+
+/* ---------- mobile layer ---------- */
+.mbar{display:none}
+@media(max-width:720px){
+  html{scroll-padding-top:72px}
+  main > section{padding-top:56px}
+  .sec-head{margin-bottom:22px;gap:10px}
+  h2.hl{font-size:clamp(28px,8.4vw,36px)}
+  .lead{font-size:15.5px}
+  /* header: logo · theme · menu; CTA moves to bottom bar */
+  .hdr-actions .nav-cta{display:none}
+  .hdr-actions .theme{display:inline-flex}
+  .theme-hero,.theme-row{display:none !important}
+  .atmo .star{display:none}
+  .site-header .wrap{padding-top:12px;padding-bottom:12px}
+  /* hero */
+  .hero-copy{padding-top:8px}
+  :root[data-theme="light"] .hero-copy{padding:26px 22px}
+  .micro-row{margin-bottom:22px}
+  .hero .sub{font-size:16px}
+  .cta-row{flex-direction:column;align-items:stretch;gap:10px}
+  .cta-row .btn{justify-content:space-between;font-size:17px;padding:8px 8px 8px 24px}
+  .cta-row .btn .badge{width:46px;height:46px}
+  .cta-row .btn-ghost{justify-content:center;height:54px}
+  .tile{border-radius:24px;padding:22px 20px}
+  .sys .part{padding:12px 0}
+  .sw{width:56px;height:32px}
+  .sw::after{width:26px;height:26px}
+  .sw[aria-checked="true"]::after,.sw.on::after{transform:translateX(24px)}
+  /* pains: compact cards */
+  .pains{border-top:0;display:grid;gap:10px}
+  .pain{background:var(--surface);border:1px solid var(--tile-border);border-radius:20px;padding:16px 18px;gap:10px}
+  .pain .p{font-size:17px}
+  .pain .f{font-size:15px;padding-top:10px;border-top:1px dashed var(--line)}
+  /* math */
+  .bento{gap:12px}
+  .flow li b{font-size:26px}
+  .marks li{font-size:16px}
+  /* services: icon + title row, then text */
+  .svc-row{padding:18px 0;grid-template-columns:40px 1fr;gap:4px 14px}
+  .svc-row .ico{width:40px;height:40px;grid-row:span 3}
+  .svc-row h3{font-size:18px}
+  .svc-row .inc,.svc-row .res{font-size:15px}
+  /* steps: swipe like a carousel */
+  .steps{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * clamp(20px,5vw,64px));
+    padding:0 clamp(20px,5vw,64px) 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .steps::-webkit-scrollbar{display:none}
+  .steps .step{flex:0 0 78%;scroll-snap-align:start;min-height:190px}
+  .swipe-hint{display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-size:13px;color:var(--faint)}
+  .dots{display:flex;gap:6px}
+  .dots i{width:22px;height:5px;border-radius:999px;background:var(--raised);transition:background .2s}
+  .dots i.on{background:var(--lime-ink)}
+  .formats{gap:8px}
+  .formats > span:first-child{width:100%}
+  /* audit / faq / final */
+  .honest blockquote{font-size:26px}
+  .qa summary{font-size:16.5px;padding:18px 0;min-height:56px}
+  .qa p{padding-right:0;font-size:15px}
+  .final{padding:30px 22px}
+  .final .btn{width:100%;justify-content:space-between}
+  /* sticky bottom CTA */
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .mbar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:30;
+    align-items:center;gap:10px;padding:8px 8px 8px 16px;border-radius:999px;background:var(--hdr-bg);border:1px solid var(--line);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(0,0,0,.28);
+    transform:translateY(140%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .mbar.show{transform:none}
+  .mbar .t{flex:1;min-width:0;font-size:13px;line-height:1.25;color:var(--muted)}
+  .mbar .t b{display:block;color:var(--ink);font-size:14px}
+  .mbar .btn{padding:6px 6px 6px 18px;font-size:15px;box-shadow:none}
+  .mbar .btn .badge{width:38px;height:38px}
+}
+@media(min-width:721px){.swipe-hint{display:none}}
+@media(max-width:360px){.mbar .t{display:none}.mbar .btn{flex:1;justify-content:space-between}}
+@media(prefers-reduced-motion:reduce){.mbar{transition:none}}
 /* theme change: circular reveal from the switch */
 ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
 @media(prefers-reduced-motion:reduce){
@@ -509,12 +584,13 @@ footer .sig{color:var(--faint);font-size:14px}
   <section id="jarayon">
     <div class="wrap">
       <div class="sec-head"><h2 class="hl">Hamkorlik <em>4 qadamda</em> boshlanadi</h2></div>
-      <ol class="steps">
+      <ol class="steps" id="steps">
         <li class="tile step"><div class="num">1</div><p>Telegram’da «AUDIT» deb yozasiz.</p></li>
         <li class="tile step"><div class="num">2</div><p>Biznesingiz va vazifangiz haqida aytib berasiz.</p></li>
         <li class="tile step"><div class="num">3</div><p>Mutaxassis tahlil qiladi va tijorat taklifini tayyorlaydi.</p></li>
         <li class="tile step"><div class="num">4</div><p>Ishlar tarkibi, narx, muddat va ko‘rsatkichlarni kelishamiz — va boshlaymiz.</p></li>
       </ol>
+      <div class="swipe-hint" aria-hidden="true"><span>Suring →</span><span class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></span></div>
       <div class="formats"><span>Hamkorlik formati:</span><span class="chip">Bir martalik loyiha</span><span class="chip">Oylik hamkorlik</span><span class="chip">Kompleks</span></div>
     </div>
   </section>
@@ -579,6 +655,11 @@ footer .sig{color:var(--faint);font-size:14px}
   </section>
 </main>
 
+<div class="mbar" id="mbar">
+  <span class="t"><b>Bepul audit</b>Telegram’da 1 daqiqada</span>
+  <a class="btn" href="https://t.me/operator_marketing_bot" target="_blank" rel="noopener">Yozish <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+</div>
+
 <footer>
   <div class="wrap">
     <a class="logo" href="#top" aria-label="switch — bosh sahifa"><span class="tg"></span><span class="wordmark">switch</span></a>
@@ -626,6 +707,21 @@ footer .sig{color:var(--faint);font-size:14px}
     setTheme(root.getAttribute('data-theme')==='light'?'dark':'light',b)})});
   syncTheme();
 
+
+  /* mobile: sticky CTA appears after hero CTA, hides at the final CTA */
+  var mbar=document.getElementById('mbar'),heroCta=document.querySelector('.cta-row'),fin=document.getElementById('yozing');
+  if('IntersectionObserver' in window){
+    var heroVis=true,finVis=false;
+    function upd(){mbar.classList.toggle('show',!heroVis&&!finVis)}
+    new IntersectionObserver(function(e){heroVis=e[0].isIntersecting;upd()}).observe(heroCta);
+    new IntersectionObserver(function(e){finVis=e[0].isIntersecting;upd()}).observe(fin);
+  }
+  /* steps swipe dots */
+  var stepsEl=document.getElementById('steps'),dots=document.querySelectorAll('#dots i');
+  stepsEl.addEventListener('scroll',function(){
+    var w=stepsEl.firstElementChild.getBoundingClientRect().width+12,i=Math.round(stepsEl.scrollLeft/w);
+    dots.forEach(function(d,k){d.classList.toggle('on',k===Math.min(i,dots.length-1))});
+  },{passive:true});
   /* system panel */
   var sys=document.getElementById('sys'),parts=[].slice.call(document.querySelectorAll('#parts .part')),
       segs=document.querySelectorAll('#segs i'),nEl=document.getElementById('sysN'),st=document.getElementById('sysStatus');

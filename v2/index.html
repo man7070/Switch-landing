@@ -855,7 +855,7 @@ footer .sig{color:var(--faint);font-size:14px}
         showErr((res.j&&res.j.error)||'Yuborib bo‘lmadi. Qayta urinib ko‘ring yoki Telegram’da yozing.',res.j&&res.j.field);
       })
       .catch(function(){clearTimeout(timer);clearTimeout(slow);fbtn.disabled=false;lbl.textContent=orig;
-        showErr('Internet bilan muammo. Qayta urinib ko‘ring yoki pastdagi havola orqali Telegram’da yozing.')});
+        showErr('Arizani yuborib bo‘lmadi. Bir daqiqadan keyin qayta urinib ko‘ring yoki pastdagi havola orqali Telegram’da yozing.')});
   });
   /* mobile: sticky CTA appears after hero CTA, hides at the final CTA */
   var mbar=document.getElementById('mbar'),heroCta=document.querySelector('.cta-row'),fin=document.getElementById('yozing');
